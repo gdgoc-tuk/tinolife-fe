@@ -6,6 +6,8 @@
 
   --spacing-ios-bottom: env(safe-area-inset-bottom);
   --spacing-ios-top: env(safe-area-inset-top);
+  --spacing-15: 60px;
+  --spacing-header: 60px;
 
   --color-tino-gray: #797979;
   --color-background: var(--background);
@@ -66,7 +68,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(0.6207 0.1424 240.61);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -79,7 +81,7 @@
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.6207 0.1424 240.61);
 }
 
 @layer base {
@@ -88,5 +90,8 @@
   }
   body {
     @apply max-w-mobile mx-auto min-h-screen shadow;
+  }
+  main {
+    @apply h-screen;
   }
 }

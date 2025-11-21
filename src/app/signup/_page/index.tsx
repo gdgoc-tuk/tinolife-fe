@@ -1,0 +1,45 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useForm } from "react-hook-form";
+
+import EmailStep from "../_components/with-progressbar/email-step";
+import WithoutProgressBar from "../_components/without-progressbar";
+import { type SignupForm, signupFormSchema } from "../_schema/signup";
+
+const DEFAULT_VALUES = {
+  email: "",
+  password: "",
+  passwordConfirm: "",
+  nickname: "",
+};
+
+interface SignupPageProps {
+  step?: string;
+}
+
+export default function SignupPage({ step }: SignupPageProps) {
+  const currentStep = step || "0";
+
+  const form = useForm<SignupForm>({
+    resolver: zodResolver(signupFormSchema),
+    defaultValues: DEFAULT_VALUES,
+    mode: "onChange",
+  });
+
+  const getStepComponent = () => {
+    switch (currentStep) {
+      case "0":
+        return <EmailStep form={form} />;
+      case "1":
+      case "2":
+      case "3":
+        return <WithoutProgressBar form={form} step={Number(currentStep)} />;
+      default:
+        return null;
+    }
+  };
+
+  return <main>{getStepComponent()}</main>;
+}

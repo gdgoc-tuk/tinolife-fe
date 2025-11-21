@@ -16,15 +16,17 @@ const useHeader = () => {
 
 interface HeaderProps {
   children: ReactNode;
+  sticky?: boolean;
   className?: string;
 }
 
-function Header({ children, className }: HeaderProps) {
+function Header({ children, sticky = false, className }: HeaderProps) {
   return (
     <HeaderContext.Provider value={true}>
       <header
         className={cn(
-          "max-w-mobile fixed top-0 right-0 left-0 z-50 mx-auto flex h-15 items-center justify-between bg-white p-4",
+          "z-50 flex h-15 items-center justify-between bg-white p-4",
+          sticky && "sticky top-0",
           className
         )}
       >
@@ -35,7 +37,7 @@ function Header({ children, className }: HeaderProps) {
 }
 
 interface HeaderSectionProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 }
 

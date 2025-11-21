@@ -10,6 +10,8 @@
   --spacing-header: 60px;
 
   --color-tino-gray: #797979;
+  --color-tino-light-gray: #ccc;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -93,5 +95,8 @@
   }
   main {
     @apply h-screen;
+  }
+  button {
+    @apply cursor-pointer disabled:cursor-not-allowed;
   }
 }

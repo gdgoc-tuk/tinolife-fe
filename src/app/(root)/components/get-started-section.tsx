@@ -3,8 +3,7 @@
 import Link from "next/link";
 
 import Close from "@/assets/close.svg";
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Button, Drawer, DrawerContent, DrawerTrigger } from "@/components/ui";
 
 export default function GetStartedSection() {
   return (
@@ -23,11 +22,11 @@ export default function GetStartedSection() {
               <p className="text-tino-gray text-sm">이전에 방문하신 적이 있을까요?</p>
             </div>
             <div className="space-y-3">
-              <Button variant="secondary" className="w-full">
-                로그인
+              <Button variant="secondary" className="w-full" asChild>
+                <Link href="/login">로그인</Link>
               </Button>
-              <Button variant="outline" className="w-full">
-                회원가입
+              <Button variant="outline" className="w-full" asChild>
+                <Link href="/signup">회원가입</Link>
               </Button>
             </div>
           </div>

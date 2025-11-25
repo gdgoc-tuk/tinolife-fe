@@ -25,7 +25,11 @@ export default function GetStartedSection() {
               <Button variant="secondary" className="w-full" asChild>
                 <Link href="/login">로그인</Link>
               </Button>
-              <Button variant="outline" className="w-full" asChild>
+              <Button
+                variant="outline"
+                className="hover:text-tino-black w-full hover:bg-white"
+                asChild
+              >
                 <Link href="/signup">회원가입</Link>
               </Button>
             </div>

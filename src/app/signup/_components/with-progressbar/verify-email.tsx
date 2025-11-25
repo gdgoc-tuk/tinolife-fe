@@ -6,6 +6,8 @@ import { errorToast } from "@/utils";
 
 import type { UseFormReturn } from "react-hook-form";
 
+import { useSendVerificationCode } from "../../_hooks/use-send-verification-code";
+import { useVerifyCode } from "../../_hooks/use-verify-code";
 import { type SignupForm } from "../../_schema/signup";
 
 interface VerifyEmailProps {
@@ -29,46 +31,70 @@ export default function VerifyEmail({
   const [emailCode, setEmailCode] = useState("");
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [resendCount, setResendCount] = useState(0);
+  const [maxResendCount, setMaxResendCount] = useState(0);
 
   const { timeLeft, startTimer, stopTimer } = useTimer();
+
+  const { mutate: sendVerificationCode, isPending: isSendVerificationCodePending } =
+    useSendVerificationCode({
+      onSuccess: (data) => {
+        console.log("data", data);
+        setIsEmailSent(true);
+        setResendCount(data.resend_count);
+        setEmailCode(""); // 재전송 시 인증번호 초기화
+        startTimer(); // 타이머 시작
+
+        setMaxResendCount(data.max_resend_count);
+      },
+      onError: (error) => {
+        console.error(error);
+        errorToast("이메일 전송 요청에 실패했습니다.");
+      },
+    });
+
+  const { mutate: verifyCode, isPending: isVerifyCodePending } = useVerifyCode({
+    onSuccess: (data) => {
+      if (data.verified) {
+        setIsEmailVerified(true);
+        stopTimer();
+        return;
+      }
+      errorToast("올바르지 않은 인증 코드입니다.");
+    },
+    onError: (error) => {
+      console.error(error);
+      errorToast("인증번호 검증 요청에 실패했습니다.");
+    },
+  });
 
   const { errors } = form.formState;
 
   const isEmailCodeExpired = !isEmailSent || timeLeft === 0; // 인증번호 유효시간 만료
   const isEmailCodeInputDisabled = isEmailCodeExpired || isEmailVerified; // 인증번호 입력 필드 비활성화
-  const isSendEmailButtonDisabled = !!errors.email || resendCount > 1 || isEmailVerified; // 이메일 전송 버튼 비활성화
-  const isVerifyCodeButtonDisabled = isEmailCodeInputDisabled || !emailCode; // 인증번호 검증 버튼 비활성화
+  const isSendEmailButtonDisabled =
+    !!errors.email ||
+    resendCount >= maxResendCount ||
+    isEmailVerified ||
+    isSendVerificationCodePending ||
+    isVerifyCodePending; // 이메일 전송 버튼 비활성화
+  const isVerifyCodeButtonDisabled = isEmailCodeInputDisabled || !emailCode || isVerifyCodePending; // 인증번호 검증 버튼 비활성화
 
-  const onSendEmail = async () => {
+  const onSendEmail = () => {
     const email = form.getValues("email");
     if (!email || errors.email) {
       return errorToast("이메일을 입력해주세요.");
     }
 
-    try {
-      // TODO: 인증번호 전송 API 호출
-      setIsEmailSent(true);
-      setResendCount((prev) => prev + 1);
-      setEmailCode(""); // 재전송 시 인증번호 초기화
-      startTimer(); // 타이머 시작
-    } catch (error) {
-      errorToast("이메일 전송에 실패했습니다.");
-    }
+    sendVerificationCode({ email });
   };
 
-  const onVerifyCode = async () => {
-    try {
-      // TODO: 인증번호 검증 API 호출
-      // 임시로 "123456"을 올바른 코드로 가정
-      if (emailCode === "123456") {
-        setIsEmailVerified(true);
-        stopTimer(); // 타이머 중지
-      } else {
-        errorToast("올바르지 않은 인증 코드입니다.");
-      }
-    } catch (error) {
-      errorToast("인증 코드 확인에 실패했습니다.");
+  const onVerifyCode = () => {
+    const email = form.getValues("email");
+    if (!email || errors.email) {
+      return errorToast("이메일을 입력해주세요.");
     }
+
+    verifyCode({ email, code: emailCode });
   };
 
   return (

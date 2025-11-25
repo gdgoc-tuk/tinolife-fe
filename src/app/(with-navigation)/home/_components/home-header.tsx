@@ -9,7 +9,7 @@ const tinolife = "/static/tinolife.png";
 
 export default function HomeHeader() {
   return (
-    <Header>
+    <Header sticky>
       <HeaderLeft className="flex-1">
         <Link href="/home">
           <Image src={tinolife} alt="tinolife" width={124} height={26} />

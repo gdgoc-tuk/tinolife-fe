@@ -36,7 +36,7 @@ export default function HotPosts() {
         ]}
       >
         <CarouselContent className="pl-4">
-          <CarouselItem className="basis-4/5 pl-2">
+          <CarouselItem className="basis-4/5 pr-4">
             <div className="h-full w-full space-y-5 rounded-2xl border p-4">
               <div className="flex gap-1">
                 <Chip>학교 생활</Chip>
@@ -51,7 +51,7 @@ export default function HotPosts() {
               </div>
             </div>
           </CarouselItem>
-          <CarouselItem className="basis-4/5 pl-2">
+          <CarouselItem className="basis-4/5 pr-4 pl-0">
             <div className="h-full w-full space-y-5 rounded-2xl border p-4">
               <div className="flex gap-1">
                 <Chip>학교 생활</Chip>
@@ -66,7 +66,7 @@ export default function HotPosts() {
               </div>
             </div>
           </CarouselItem>
-          <CarouselItem className="basis-4/5 pr-4 pl-2">
+          <CarouselItem className="basis-4/5 pr-4 pl-0">
             <div className="h-full w-full space-y-5 rounded-2xl border p-4">
               <div className="flex gap-1">
                 <Chip>수업</Chip>
@@ -83,9 +83,6 @@ export default function HotPosts() {
       </Carousel>
       <div className="mx-auto mt-3 flex w-max items-center gap-1">
         {Array.from({ length: 3 }).map((_, index) => (
-          // <div key={index} className="w-2 h-2 rounded-full bg-tino-gray">
-          //   {index === currentIndex && <div className="size-1 rounded-full bg-tino-blue-02" />}
-          // </div>
           <div
             key={index}
             className={cn(

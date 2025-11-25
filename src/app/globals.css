@@ -12,6 +12,8 @@
 
   --text-2xs: 10px;
 
+  --shadow-list: 0 0 0.5px 0 rgba(0, 0, 0, 0.25);
+
   --color-tino-blue-01: #f1f8ff;
   --color-tino-blue-02: #0059ff;
   --color-tino-gray: #797979;

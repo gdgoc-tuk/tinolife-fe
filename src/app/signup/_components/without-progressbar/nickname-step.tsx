@@ -68,8 +68,8 @@ export default function NicknameStep({ form }: NicknameStepProps) {
               />
               <Button
                 type="button"
-                variant="secondary"
                 disabled={isCheckNicknameButtonDisabled}
+                className="bg-tino-black hover:bg-tino-black/80"
                 onClick={onCheckNickname}
               >
                 중복확인

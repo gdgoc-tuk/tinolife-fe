@@ -22,7 +22,7 @@ export default function HotPosts() {
   }, [api]);
 
   return (
-    <>
+    <section className="py-5">
       <Carousel
         setApi={setApi}
         opts={{
@@ -95,6 +95,6 @@ export default function HotPosts() {
           />
         ))}
       </div>
-    </>
+    </section>
   );
 }

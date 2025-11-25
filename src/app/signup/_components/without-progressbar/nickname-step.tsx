@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button, Input } from "@/components";
-import { errorToast, successToast } from "@/utils";
+import { errorToast, infoToast, successToast } from "@/utils";
 
 import type { UseFormReturn } from "react-hook-form";
 
+import { useCheckNickname } from "../../_hooks/use-check-nickname";
 import { type SignupForm } from "../../_schema/signup";
 
 interface NicknameStepProps {
@@ -17,27 +18,37 @@ export default function NicknameStep({ form }: NicknameStepProps) {
 
   const [isNicknameVerified, setIsNicknameVerified] = useState(false);
 
+  const { mutate: checkNickname, isPending: isCheckNicknamePending } = useCheckNickname({
+    onSuccess: (data) => {
+      if (data.available) {
+        successToast("사용 가능한 닉네임입니다.");
+        setIsNicknameVerified(true);
+        return;
+      }
+      infoToast("이미 사용 중인 닉네임입니다.");
+      setIsNicknameVerified(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      errorToast("닉네임 중복확인에 실패했습니다.");
+    },
+  });
+
   const { errors } = form.formState;
   const nickname = form.watch("nickname");
 
   const isNicknameInputDisabled = isNicknameVerified;
-  const isCheckNicknameButtonDisabled = !!errors.nickname || !nickname || isNicknameVerified;
-  const isNextDisabled = !isNicknameVerified || !!errors.nickname;
+  const isCheckNicknameButtonDisabled =
+    !!errors.nickname || !nickname || isNicknameVerified || isCheckNicknamePending;
+  const isNextDisabled = !isNicknameVerified || !!errors.nickname || isCheckNicknamePending;
 
-  const onCheckNickname = async () => {
+  const onCheckNickname = () => {
     const nicknameValue = form.getValues("nickname");
     if (!nicknameValue || errors.nickname) {
       return errorToast("닉네임을 입력해주세요.");
     }
 
-    try {
-      // TODO: 닉네임 중복확인 API 호출
-      // 임시로 항상 사용 가능하다고 가정
-      setIsNicknameVerified(true);
-      successToast("사용 가능한 닉네임입니다.");
-    } catch (error) {
-      errorToast("닉네임 중복확인에 실패했습니다.");
-    }
+    checkNickname({ nickname: nicknameValue });
   };
 
   const onNextStep = () => {

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const signupFormSchema = z.object({
   email: z.string().regex(/^[A-Za-z\d]+@tukorea\.ac\.kr$/, "학교 이메일만 사용 가능합니다."),
+  grade: z.number().min(1).max(4),
   password: z
     .string()
     .regex(
@@ -17,6 +18,8 @@ const signupFormSchema = z.object({
   nickname: z
     .string()
     .regex(/^[a-zA-Z0-9가-힣]{2,12}$/, "한글, 영문, 숫자를 사용한 2~12자로 입력해주세요."),
+  major: z.string().min(1),
+  studentId: z.string().regex(/^[0-9]{10}$/, "10자리 숫자로 입력해주세요."),
 });
 
 type SignupForm = z.infer<typeof signupFormSchema>;

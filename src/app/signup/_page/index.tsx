@@ -10,9 +10,12 @@ import { type SignupForm, signupFormSchema } from "../_schema/signup";
 
 const DEFAULT_VALUES = {
   email: "",
+  grade: 0,
   password: "",
   passwordConfirm: "",
   nickname: "",
+  major: "",
+  studentId: "",
 };
 
 interface SignupPageProps {

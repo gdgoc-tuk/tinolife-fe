@@ -12,6 +12,7 @@
   --color-tino-gray: #797979;
   --color-tino-black: #272727;
   --color-tino-light-gray: #ccc;
+  --color-tino-border: #eee;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -99,5 +100,13 @@
   }
   button {
     @apply cursor-pointer disabled:cursor-not-allowed;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 }

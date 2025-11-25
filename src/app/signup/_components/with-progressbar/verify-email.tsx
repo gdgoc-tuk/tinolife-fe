@@ -6,7 +6,7 @@ import { errorToast } from "@/utils";
 
 import type { UseFormReturn } from "react-hook-form";
 
-import type { SignupForm } from "../_schema/signup";
+import { type SignupForm } from "../../_schema/signup";
 
 interface VerifyEmailProps {
   form: UseFormReturn<SignupForm>;

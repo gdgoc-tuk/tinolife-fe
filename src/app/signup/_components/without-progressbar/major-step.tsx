@@ -17,11 +17,11 @@ export default function MajorStep({ form }: MajorStepProps) {
 
   const grade = form.watch("grade");
   const major_id = form.watch("major_id");
-  const studentId = form.watch("studentId");
+  const studentId = form.watch("student_id");
 
   const { errors } = form.formState;
 
-  const isNextDisabled = !grade || !major_id || !!errors.studentId || !studentId;
+  const isNextDisabled = !grade || !major_id || !!errors.student_id || !studentId;
 
   const onNextStep = () => {
     router.push("/signup?step=3");
@@ -69,11 +69,11 @@ export default function MajorStep({ form }: MajorStepProps) {
               type="text"
               maxLength={10}
               placeholder="학번을 입력해주세요."
-              aria-invalid={!!errors.studentId}
-              {...form.register("studentId")}
+              aria-invalid={!!errors.student_id}
+              {...form.register("student_id")}
             />
-            {errors.studentId && (
-              <p className="text-destructive text-xs">{errors.studentId.message}</p>
+            {errors.student_id && (
+              <p className="text-destructive text-xs">{errors.student_id.message}</p>
             )}
           </div>
         </div>

@@ -14,7 +14,7 @@ interface MajorProps {
 type GetMajorsResponse = MajorProps[];
 
 const getMajors = async (): Promise<GetMajorsResponse> => {
-  return api.get("users/majors").json();
+  return api.get("majors").json();
 };
 
 const useGetMajors = () => {

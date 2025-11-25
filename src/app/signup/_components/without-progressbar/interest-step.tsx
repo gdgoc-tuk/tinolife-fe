@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 
 import { Button, CustomErrorBoundary } from "@/components";
-import { errorToast } from "@/utils/toast";
+import { errorToast, successToast } from "@/utils/toast";
 
 import { Loader2 } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
@@ -21,6 +21,7 @@ export default function InterestStep({ form }: InterestStepProps) {
     onSuccess: () => {
       form.reset();
       router.push("/");
+      successToast("회원가입이 완료되었어요.");
     },
     onError: (error) => {
       console.error(error);

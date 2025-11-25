@@ -11,16 +11,17 @@ import { ChevronDown, Loader2 } from "lucide-react";
 import { useGetMajors } from "../../_hooks/use-get-majors";
 
 interface SelectProps {
+  major: string;
   value: number;
-  onSelect: (value: number) => void;
+  onSelect: (id: number, name: string) => void;
 }
 
-export default function Select({ value, onSelect }: SelectProps) {
+export default function Select({ major, value, onSelect }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [optionContainerRef] = useOutsideClick<HTMLDivElement>(() => setIsOpen(false));
 
-  const onSelectOption = (majorId: number) => {
-    onSelect(majorId);
+  const onSelectOption = (majorId: number, name: string) => {
+    onSelect(majorId, name);
     setIsOpen(false);
   };
 
@@ -30,7 +31,7 @@ export default function Select({ value, onSelect }: SelectProps) {
         className="border-tino-border text-tino-black flex w-full items-center justify-between rounded-xl border-2 p-4"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <p className={cn(!value && "text-tino-light-gray")}>{value || "전공을 선택해주세요."}</p>
+        <p className={cn(!value && "text-tino-light-gray")}>{major || "전공을 선택해주세요."}</p>
         <ChevronDown className={cn("transition-transform", isOpen ? "rotate-180" : "rotate-0")} />
       </button>
       <CustomErrorBoundary
@@ -65,7 +66,7 @@ export default function Select({ value, onSelect }: SelectProps) {
   );
 }
 
-interface SelectOptionsProps extends SelectProps {
+interface SelectOptionsProps extends Omit<SelectProps, "major"> {
   isOpen: boolean;
 }
 
@@ -86,7 +87,7 @@ function SelectOptions({ value, onSelect, isOpen }: SelectOptionsProps) {
               "text-tino-gray w-full text-left",
               value === major.id ? "text-secondary" : "hover:text-foreground"
             )}
-            onClick={() => onSelect(major.id)}
+            onClick={() => onSelect(major.id, major.name)}
           >
             {major.name}
           </button>

@@ -16,12 +16,18 @@ export default function MajorStep({ form }: MajorStepProps) {
   const router = useRouter();
 
   const grade = form.watch("grade");
+  const major = form.watch("major");
   const major_id = form.watch("major_id");
   const studentId = form.watch("student_id");
 
   const { errors } = form.formState;
 
   const isNextDisabled = !grade || !major_id || !!errors.student_id || !studentId;
+
+  const onSelectMajor = (id: number, name: string) => {
+    form.setValue("major_id", id);
+    form.setValue("major", name);
+  };
 
   const onNextStep = () => {
     router.push("/signup?step=3");
@@ -55,10 +61,7 @@ export default function MajorStep({ form }: MajorStepProps) {
           </div>
           <div className="space-y-2.5">
             <Label className="block text-sm font-bold">전공</Label>
-            <Select
-              value={major_id}
-              onSelect={(value: number) => form.setValue("major_id", value)}
-            />
+            <Select major={major} value={major_id} onSelect={onSelectMajor} />
           </div>
           <div className="space-y-2.5">
             <Label htmlFor="studentId" className="block text-sm font-bold">

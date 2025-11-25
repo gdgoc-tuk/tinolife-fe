@@ -16,6 +16,7 @@ const DEFAULT_VALUES = {
   password: "",
   passwordConfirm: "",
   nickname: "",
+  major: "",
   major_id: 0,
   studentId: "",
   interest_ids: [],

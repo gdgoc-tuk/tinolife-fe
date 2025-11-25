@@ -1,22 +1,26 @@
+"use client";
+
 import { useState } from "react";
 
+import { Button, CustomErrorBoundary } from "@/components";
 import { useOutsideClick } from "@/hooks";
 import { cn } from "@/utils";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
+
+import { useGetMajors } from "../../_hooks/use-get-majors";
 
 interface SelectProps {
-  options: string[];
-  value: string;
-  onSelect: (value: string) => void;
+  value: number;
+  onSelect: (value: number) => void;
 }
 
-export default function Select({ options, value, onSelect }: SelectProps) {
+export default function Select({ value, onSelect }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [optionContainerRef] = useOutsideClick<HTMLDivElement>(() => setIsOpen(false));
 
-  const onSelectOption = (option: string) => {
-    onSelect(option);
+  const onSelectOption = (majorId: number) => {
+    onSelect(majorId);
     setIsOpen(false);
   };
 
@@ -29,23 +33,65 @@ export default function Select({ options, value, onSelect }: SelectProps) {
         <p className={cn(!value && "text-tino-light-gray")}>{value || "전공을 선택해주세요."}</p>
         <ChevronDown className={cn("transition-transform", isOpen ? "rotate-180" : "rotate-0")} />
       </button>
-      {isOpen && (
-        <ul className="border-tino-border absolute top-full mt-2 max-h-52 w-full overflow-y-auto rounded-xl border-2 bg-white shadow">
-          {options.map((option) => (
-            <li className="p-4" key={option}>
-              <button
-                className={cn(
-                  "text-tino-gray w-full text-left",
-                  value === option ? "text-secondary" : "hover:text-foreground"
-                )}
-                onClick={() => onSelectOption(option)}
-              >
-                {option}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <CustomErrorBoundary
+        withSuspense
+        suspenseFallback={
+          <div
+            className={cn(
+              "border-tino-border absolute top-full mt-2 w-full rounded-xl border-2 bg-white p-4 shadow",
+              !isOpen && "invisible"
+            )}
+          >
+            <Loader2 className="text-secondary mx-auto animate-spin" />
+          </div>
+        }
+        errorFallback={({ resetErrorBoundary }) => (
+          <div
+            className={cn(
+              "border-tino-border absolute top-full mt-2 flex w-full flex-col gap-2 rounded-xl border-2 bg-white p-4 shadow",
+              !isOpen && "invisible"
+            )}
+          >
+            <p className="text-destructive text-center">전공 정보를 불러오는데 실패했어요.</p>
+            <Button onClick={resetErrorBoundary} className="text-sm">
+              다시 시도하기
+            </Button>
+          </div>
+        )}
+      >
+        <SelectOptions value={value} onSelect={onSelectOption} isOpen={isOpen} />
+      </CustomErrorBoundary>
     </div>
+  );
+}
+
+interface SelectOptionsProps extends SelectProps {
+  isOpen: boolean;
+}
+
+function SelectOptions({ value, onSelect, isOpen }: SelectOptionsProps) {
+  const { data: majors } = useGetMajors();
+
+  return (
+    <ul
+      className={cn(
+        "border-tino-border absolute top-full mt-2 max-h-52 w-full overflow-y-auto rounded-xl border-2 bg-white shadow",
+        !isOpen && "invisible"
+      )}
+    >
+      {majors.map((major) => (
+        <li className="p-4" key={major.id}>
+          <button
+            className={cn(
+              "text-tino-gray w-full text-left",
+              value === major.id ? "text-secondary" : "hover:text-foreground"
+            )}
+            onClick={() => onSelect(major.id)}
+          >
+            {major.name}
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }

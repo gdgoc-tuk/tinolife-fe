@@ -12,17 +12,16 @@ interface MajorStepProps {
   form: UseFormReturn<SignupForm>;
 }
 
-const MAJOR_OPTIONS = ["전공1", "전공2", "전공3", "전공4", "전공5", "전공6"];
-
 export default function MajorStep({ form }: MajorStepProps) {
   const router = useRouter();
+
   const grade = form.watch("grade");
-  const major = form.watch("major");
+  const major_id = form.watch("major_id");
   const studentId = form.watch("studentId");
 
   const { errors } = form.formState;
 
-  const isNextDisabled = !grade || !major || !!errors.studentId || !studentId;
+  const isNextDisabled = !grade || !major_id || !!errors.studentId || !studentId;
 
   const onNextStep = () => {
     router.push("/signup?step=3");
@@ -57,9 +56,8 @@ export default function MajorStep({ form }: MajorStepProps) {
           <div className="space-y-2.5">
             <Label className="block text-sm font-bold">전공</Label>
             <Select
-              options={MAJOR_OPTIONS}
-              value={major}
-              onSelect={(value: string) => form.setValue("major", value)}
+              value={major_id}
+              onSelect={(value: number) => form.setValue("major_id", value)}
             />
           </div>
           <div className="space-y-2.5">

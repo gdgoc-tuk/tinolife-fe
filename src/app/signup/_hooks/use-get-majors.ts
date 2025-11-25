@@ -1,0 +1,29 @@
+import { api } from "@/lib/ky";
+import type { UseSuspenseQueryOptions } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+import type { HTTPError } from "ky";
+
+interface MajorProps {
+  name: string;
+  code: string | null;
+  id: number;
+  is_active: boolean;
+  created_at: string;
+}
+
+type GetMajorsResponse = MajorProps[];
+
+const getMajors = async (): Promise<GetMajorsResponse> => {
+  return api.get("users/majors").json();
+};
+
+const useGetMajors = (options?: UseSuspenseQueryOptions<GetMajorsResponse, HTTPError>) => {
+  return useSuspenseQuery<GetMajorsResponse, HTTPError>({
+    queryKey: ["majors"],
+    queryFn: getMajors,
+    ...options,
+  });
+};
+
+export { useGetMajors, type GetMajorsResponse };

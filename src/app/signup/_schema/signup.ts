@@ -18,7 +18,7 @@ const signupFormSchema = z.object({
   nickname: z
     .string()
     .regex(/^[a-zA-Z0-9가-힣]{2,12}$/, "한글, 영문, 숫자를 사용한 2~12자로 입력해주세요."),
-  major: z.string().min(1),
+  major_id: z.number().min(1),
   studentId: z.string().regex(/^[0-9]{10}$/, "10자리 숫자로 입력해주세요."),
   interests: z.array(z.string()).min(1),
 });

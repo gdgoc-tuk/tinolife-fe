@@ -5,6 +5,7 @@ import { Header, HeaderCenter, HeaderLeft, HeaderRight } from "@/components";
 import { ChevronLeft } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
 
+import InterestStep from "./interest-step";
 import MajorStep from "./major-step";
 import NicknameStep from "./nickname-step";
 import Progressbar from "./progressbar";
@@ -25,7 +26,7 @@ export default function WithoutProgressBar({ form, step }: WithoutProgressBarPro
       case 2:
         return <MajorStep form={form} />;
       case 3:
-        return <NicknameStep form={form} />;
+        return <InterestStep form={form} />;
       default:
         return null;
     }

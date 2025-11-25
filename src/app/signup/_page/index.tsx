@@ -16,6 +16,7 @@ const DEFAULT_VALUES = {
   nickname: "",
   major: "",
   studentId: "",
+  interests: [],
 };
 
 interface SignupPageProps {

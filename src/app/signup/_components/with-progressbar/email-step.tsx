@@ -11,14 +11,12 @@ import {
   Input,
   Label,
 } from "@/components";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ChevronLeft } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
-import { useForm } from "react-hook-form";
 
 import VerifyEmail from "./verify-email";
-import { type SignupForm, signupFormSchema } from "../../_schema/signup";
+import { type SignupForm } from "../../_schema/signup";
 
 interface EmailStepProps {
   form: UseFormReturn<SignupForm>;
@@ -30,9 +28,9 @@ export default function EmailStep({ form }: EmailStepProps) {
   const [isAgreed, setIsAgreed] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
 
-  const { isValid, errors } = form.formState;
+  const { errors } = form.formState;
 
-  const isSubmitDisabled = !isValid || !isAgreed || !isEmailVerified; // 계속하기 버튼 비활성화
+  const isSubmitDisabled = !isAgreed || !isEmailVerified; // 계속하기 버튼 비활성화
 
   const onChangeIsAgreed = (checked: boolean) => {
     setIsAgreed(checked);

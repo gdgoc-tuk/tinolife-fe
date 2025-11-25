@@ -93,7 +93,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply max-w-mobile mx-auto min-h-screen shadow;
+    @apply max-w-mobile text-tino-black mx-auto min-h-screen shadow;
   }
   main {
     @apply h-screen;

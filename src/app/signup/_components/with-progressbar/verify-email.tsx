@@ -30,7 +30,7 @@ export default function VerifyEmail({
 }: VerifyEmailProps) {
   const [emailCode, setEmailCode] = useState("");
   const [isEmailSent, setIsEmailSent] = useState(false);
-  const [resendCount, setResendCount] = useState(0);
+  const [resendCount, setResendCount] = useState(-1);
   const [maxResendCount, setMaxResendCount] = useState(0);
 
   const { timeLeft, startTimer, stopTimer } = useTimer();
@@ -118,7 +118,7 @@ export default function VerifyEmail({
             disabled={isSendEmailButtonDisabled}
             onClick={onSendEmail}
           >
-            {resendCount === 0 ? "전송" : "재전송"}
+            {resendCount === -1 ? "전송" : "재전송"}
           </Button>
         </div>
         {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}

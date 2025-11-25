@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
@@ -44,6 +46,16 @@ export default function SignupPage({ step }: SignupPageProps) {
         return null;
     }
   };
+
+  useEffect(() => {
+    if (
+      (+currentStep > 0 && !form.getValues("email")) ||
+      (+currentStep > 1 && !form.getValues("nickname")) ||
+      (+currentStep > 2 && !form.getValues("grade"))
+    ) {
+      throw new Error("잘못된 접근입니다.");
+    }
+  }, [currentStep]);
 
   return <main>{getStepComponent()}</main>;
 }

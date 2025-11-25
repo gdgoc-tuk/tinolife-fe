@@ -1,4 +1,7 @@
+import { useRouter } from "next/navigation";
+
 import { Button, CustomErrorBoundary } from "@/components";
+import { errorToast } from "@/utils/toast";
 
 import { Loader2 } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
@@ -12,7 +15,18 @@ interface InterestStepProps {
 }
 
 export default function InterestStep({ form }: InterestStepProps) {
-  const { mutate: signup, isPending } = useSignup();
+  const router = useRouter();
+
+  const { mutate: signup, isPending } = useSignup({
+    onSuccess: () => {
+      form.reset();
+      router.push("/");
+    },
+    onError: (error) => {
+      console.error(error);
+      errorToast("회원가입에 실패했어요.");
+    },
+  });
 
   const interestIds = form.watch("interest_ids");
 
@@ -35,7 +49,6 @@ export default function InterestStep({ form }: InterestStepProps) {
       privacy_policy_agreed: true,
     };
     signup(body);
-    // 데이터 요청 성공 시 router로 홈으로 이동
   });
 
   return (

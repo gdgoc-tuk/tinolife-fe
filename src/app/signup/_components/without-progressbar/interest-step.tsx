@@ -1,30 +1,29 @@
-import { Button } from "@/components";
-import { cn } from "@/utils";
+import { Button, CustomErrorBoundary } from "@/components";
 
+import { Loader2 } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
 
+import InterestOptions from "./interest-options";
 import { type SignupForm } from "../../_schema/signup";
 
 interface InterestStepProps {
   form: UseFormReturn<SignupForm>;
 }
 
-const INTEREST_OPTIONS = ["관심사1", "관심사2", "관심사3", "관심사4", "관심사5", "관심사6"];
-
 export default function InterestStep({ form }: InterestStepProps) {
-  const interests = form.watch("interests");
+  const interestIds = form.watch("interest_ids");
 
-  const isCompleteDisabled = interests.length === 0;
+  const isCompleteDisabled = interestIds.length === 0;
 
-  const onSelectInterest = (interest: string) => {
-    if (interests.includes(interest)) {
+  const onSelectInterestId = (interestId: number) => {
+    if (interestIds.includes(interestId)) {
       form.setValue(
-        "interests",
-        interests.filter((i) => i !== interest)
+        "interest_ids",
+        interestIds.filter((i) => i !== interestId)
       );
       return;
     }
-    form.setValue("interests", [...interests, interest]);
+    form.setValue("interest_ids", [...interestIds, interestId]);
   };
 
   const onComplete = form.handleSubmit((data) => {
@@ -39,22 +38,23 @@ export default function InterestStep({ form }: InterestStepProps) {
           <h1 className="text-2xl font-bold">관심사를 알려주세요.</h1>
           <h2 className="text-tino-gray text-sm">더 정확한 추천을 위해 태그가 활용됩니다.</h2>
         </div>
-        <div className="flex flex-wrap gap-2.5">
-          {INTEREST_OPTIONS.map((option) => (
-            <Button
-              key={option}
-              className={cn(
-                "bg-tino-border hover:bg-tino-border/80 rounded-full border-none px-5 py-3",
-                !interests.includes(option)
-                  ? "text-tino-black"
-                  : "bg-tino-black hover:bg-tino-black/80"
-              )}
-              onClick={() => onSelectInterest(option)}
-            >
-              {option}
-            </Button>
-          ))}
-        </div>
+        {/* <CustomErrorBoundary
+          withSuspense
+          suspenseFallback={<Loader2 className="text-secondary mx-auto animate-spin" />}
+          errorFallback={({ resetErrorBoundary }) => (
+            <div className="text-tino-black flex flex-col gap-2">
+              <p className="text-destructive text-center">관심사 정보를 불러오는데 실패했어요.</p>
+              <Button onClick={resetErrorBoundary} className="text-sm">
+                다시 시도하기
+              </Button>
+            </div>
+          )}
+        > */}
+        <InterestOptions
+          selectedInterestIds={interestIds}
+          onSelectInterestId={onSelectInterestId}
+        />
+        {/* </CustomErrorBoundary> */}
       </div>
       <Button
         onClick={onComplete}

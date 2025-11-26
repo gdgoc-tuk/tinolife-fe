@@ -38,7 +38,6 @@ export default function VerifyEmail({
   const { mutate: sendVerificationCode, isPending: isSendVerificationCodePending } =
     useSendVerificationCode({
       onSuccess: (data) => {
-        console.log("data", data);
         setIsEmailSent(true);
         setResendCount(data.resend_count);
         setEmailCode(""); // 재전송 시 인증번호 초기화

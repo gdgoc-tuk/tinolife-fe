@@ -4,11 +4,10 @@ import { useState } from "react";
 
 import { Button, CustomErrorBoundary } from "@/components";
 import { useOutsideClick } from "@/hooks";
+import { useGetMajors } from "@/hooks";
 import { cn } from "@/utils";
 
 import { ChevronDown, Loader2 } from "lucide-react";
-
-import { useGetMajors } from "../../_hooks/use-get-majors";
 
 interface SelectProps {
   major: string;

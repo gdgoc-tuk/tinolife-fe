@@ -8,6 +8,7 @@ import { Button, Label } from "@/components/ui";
 import { Input } from "@/components/ui";
 import { useUserStore } from "@/lib/zustand/user";
 import { errorToast, infoToast } from "@/utils";
+import { setCookie } from "@/utils/cookie";
 
 import { useLogin } from "./_hooks/use-login";
 
@@ -22,11 +23,12 @@ export default function Login() {
     isPending,
     isSuccess,
   } = useLogin({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setUser({
         id: data.user_id,
         access_token: data.access_token,
       });
+      await setCookie("refresh_token", data.refresh_token);
       router.push("/home");
     },
     onError: () => {

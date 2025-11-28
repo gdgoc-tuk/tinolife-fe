@@ -104,7 +104,7 @@
     @apply max-w-mobile text-tino-black mx-auto min-h-screen shadow;
   }
   main {
-    @apply h-screen;
+    @apply min-h-screen;
   }
   button {
     @apply cursor-pointer disabled:cursor-not-allowed;

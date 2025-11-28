@@ -3,14 +3,17 @@ import { cn } from "@/utils";
 interface ChipProps extends React.HTMLAttributes<HTMLParagraphElement> {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "orange" | "gray";
+  variant?: Variant;
 }
 
 const variantMap = {
   default: "text-tino-blue-02 bg-tino-blue-01",
   orange: "text-[#FF5500] bg-[#FFF6F1]",
   gray: "text-[#333] bg-[#F2F2F2]",
+  green: "text-[#06D314] bg-[#E8FFF0]",
 };
+
+type Variant = keyof typeof variantMap;
 
 export default function Chip({ children, className, variant = "default", ...props }: ChipProps) {
   return (

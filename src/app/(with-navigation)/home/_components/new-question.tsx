@@ -1,6 +1,6 @@
 import Check from "@/assets/check.svg";
 import Comment from "@/assets/message.svg";
-import { getTimeDisplay } from "@/utils/format";
+import { getTimeDisplay } from "@/utils";
 
 interface NewQuestionProps {
   title: string;

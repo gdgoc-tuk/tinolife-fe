@@ -3,7 +3,7 @@
 import Person from "@/assets/mypage.svg";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Chip from "@/components/ui/chip";
-import { getTimeDisplay } from "@/utils/format";
+import { getTimeDisplay } from "@/utils";
 
 export default function RecommendStoryCards() {
   return (

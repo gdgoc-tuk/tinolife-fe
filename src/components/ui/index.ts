@@ -6,3 +6,4 @@ export * from "./label";
 export * from "./checkbox";
 export * from "./sonner";
 export { default as SelectTag } from "./select-tag";
+export { default as Spinner } from "./spinner";

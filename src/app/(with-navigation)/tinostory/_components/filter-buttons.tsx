@@ -41,7 +41,7 @@ export default function FilterButtons(props: TinostorySearchParams) {
   };
 
   return (
-    <section className="space-y-3 px-4">
+    <section className="sticky top-0 space-y-3 bg-white px-4">
       <div className="flex items-center justify-between">
         <SelectCategory category={category} />
         <SelectSort sort={sort} />

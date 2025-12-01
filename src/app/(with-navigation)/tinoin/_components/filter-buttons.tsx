@@ -3,11 +3,10 @@
 import { useRouter } from "next/navigation";
 
 import Reset from "@/assets/reset.svg";
-import { Button } from "@/components";
+import { Button, SelectTag } from "@/components";
 
 import SelectGrade from "./select-grade";
 import SelectMajor from "./select-major";
-import SelectTag from "./select-tag";
 import type { TinoinSearchParams } from "../page";
 
 const TAGS = [
@@ -52,7 +51,7 @@ export default function FilterButtons(props: TinoinSearchParams) {
         <SelectMajor major={major} />
         <SelectGrade grade={grade} />
       </div>
-      <ul className="flex gap-3 p-2">
+      <ul className="flex gap-3 overflow-x-auto p-2">
         {TAGS.map((tag) => (
           <li key={tag.id}>
             <SelectTag {...tag} selected={selectedTags.includes(tag.value)} />

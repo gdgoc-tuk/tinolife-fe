@@ -1,10 +1,18 @@
 import Image from "next/image";
+import { redirect, RedirectType } from "next/navigation";
+
+import { getCookie } from "@/utils/cookie";
 
 import GetStartedSection from "./_components/get-started-section";
 
 const logo = "/static/logo.png";
 
-export default function Home() {
+export default async function Home() {
+  const cookie = await getCookie("refresh_token");
+  if (cookie) {
+    redirect("/home", RedirectType.replace);
+  }
+
   return (
     <main className="flex flex-col justify-between pb-4">
       <section className="mx-auto flex flex-1 flex-col items-center justify-center space-y-6">

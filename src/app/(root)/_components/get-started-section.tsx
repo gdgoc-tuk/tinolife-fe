@@ -36,9 +36,6 @@ export default function GetStartedSection() {
           </div>
         </DrawerContent>
       </Drawer>
-      <Link className="text-tino-gray text-xs underline" href="/home">
-        둘러보기
-      </Link>
     </section>
   );
 }
